@@ -5,7 +5,7 @@ local VirtualUser = game:GetService("VirtualUser")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Player = Players.LocalPlayer
-local nickname = "1jackthepot"
+local nickname = "1jackpetadopt"
 
 
 Player.Idled:connect(
