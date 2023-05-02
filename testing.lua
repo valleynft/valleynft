@@ -89,6 +89,7 @@ tp()
 
 spawn(function()
     while true do
+        sleep(0.02)
         Player.PlayerGui.DialogApp.Dialog.Visible = false
         Player.PlayerGui.TradeApp.Frame.Visible = false
         Player.PlayerGui.HintApp.TextLabel.Visible = false
